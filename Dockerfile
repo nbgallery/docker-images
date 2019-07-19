@@ -1,36 +1,40 @@
 FROM jupyter/base-notebook
+
 USER root
-ENV GRANT_SUDO=yes
-ENV CHOWN_HOME=yes
-ENV CHOWN_HOME_OPTS='-R'
 
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
-        nginx \
         build-essential \
         ssh \
         git \
+        run-one \
         vim && \
     rm -rf /var/lib/apt/lists/*
-    
-RUN conda install --quiet --yes \
+
+COPY conf/ /
+
+RUN conda install --yes --insecure --override-channels --quiet \
+    --channel conda-forge \
         jupyter_contrib_nbextensions \
         jupyter_nbextensions_configurator \
-        ipywidgets \
-        ipyleaflet \
-        qgrid && \
-    conda clean -tipsy && \
-    jupyter labextension install --no-build \
-        @jupyter-widgets/jupyterlab-manager \
-        qgrid \
-        jupyter-leaflet && \
-    jupyter lab build && \
+        jupyter_dashboards \
+        voila \
+        ipywidgets && \
+    pip install ipydeps && \
+    sed -i /usr/local/bin/start-notebook.sh -e 's/jupyter/run-one-constantly jupyter/' && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-COPY jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
-COPY start_nginx.sh /usr/local/bin/start-notebook.d/start_nginx.sh
+ENV NBGALLERY_CLIENT_VERSION=1.0 \
+    GRANT_SUDO=yes \
+    CHOWN_HOME=yes \
+    CHOWN_HOME_OPTS='-R'
 
+LABEL maintainer="https://github.com/nbgallery" \
+      version="$NBGALLERY_CLIENT_VERSION" \
+      source="https://github.com/nbgallery/jupyter_ubuntu" \
+      description="Jupyter base image with nbgallery integration"
 
+USER jovyan

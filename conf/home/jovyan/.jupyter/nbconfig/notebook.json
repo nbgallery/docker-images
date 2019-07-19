@@ -1,0 +1,25 @@
+{
+  "load_extensions": {
+    "toc2/main": true,
+    "execute_time/ExecuteTime": true,
+    "collapsible_headings/main": true,
+    "exercise2/main": true
+  },
+  "_": "https://codemirror.net/doc/manual.html",
+  "CodeCell": {
+    "cm_config": {
+      "tabSize": 4,
+      "indentUnit": 4,
+      "smartIndent": false,
+      "autoCloseBrackets": false
+    }
+  },
+  "toc2": {
+    "widenNotebook": false,
+    "moveMenuLeft": false,
+    "navigate_menu": false
+  },
+  "collapsible_headings": {
+    "collapse_to_match_toc": true
+  }
+}
