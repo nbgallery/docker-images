@@ -40,5 +40,3 @@ LABEL maintainer="https://github.com/nbgallery" \
       version="$NBGALLERY_CLIENT_VERSION" \
       source="https://github.com/nbgallery/jupyter_ubuntu" \
       description="Jupyter base image with nbgallery integration"
-
-USER jovyan
