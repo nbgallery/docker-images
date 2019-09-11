@@ -38,5 +38,5 @@ ENV NBGALLERY_CLIENT_VERSION=1.0 \
 
 LABEL maintainer="https://github.com/nbgallery" \
       version="$NBGALLERY_CLIENT_VERSION" \
-      source="https://github.com/nbgallery/jupyter_ubuntu" \
+      source="https://github.com/nbgallery/docker-images/base-notebook" \
       description="Jupyter base image with nbgallery integration"
