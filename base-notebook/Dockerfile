@@ -20,7 +20,11 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_dashboards \
         voila \
         ipywidgets && \
-    pip install ipydeps && \
+    pip install ipydeps jupyter_nbgallery && \
+    jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
+    jupyter nbextension enable --section common jupyter_nbgallery/environment/environment && \
+    jupyter nbextension enable --section notebook jupyter_nbgallery/gallery_menu/gallery_menu && \
+    jupyter serverextension enable jupyter_nbgallery.post_hack && \
     sed -i /usr/local/bin/start-notebook.sh -e 's/jupyter/run-one-constantly jupyter/' && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
