@@ -10,4 +10,4 @@ This repository contains a Jupyter docker image designed to integrate with the [
  * [Jupyter contrib extensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions) and the [configurator](https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator) are installed, with some of our favorites like [Table of Contents](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/nbextensions/toc2/README.html) enabled by default.
  * Jupyter dashboard extensions are installed. We currently use the now-inactive [Jupyter Dashboards](https://github.com/jupyter/dashboards) project in our organization, and we're looking to migrate to [Voila](https://github.com/QuantStack/voila).
 
-You can download this image from [Docker Hub](https://cloud.docker.com/u/nbgallery/repository/docker/nbgallery/base-notebook).
+You can download this image from [Docker Hub](https://hub.docker.com/r/nbgallery/base-notebook).
