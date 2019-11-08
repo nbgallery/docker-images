@@ -1,0 +1,4 @@
+set ignorecase
+set smartcase
+set ts=4
+set expandtab

@@ -5,6 +5,7 @@ USER root
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
         build-essential \
+        fonts-freefont-ttf \
         ssh \
         git \
         run-one \
@@ -17,6 +18,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     --channel conda-forge \
         jupyter_contrib_nbextensions \
         jupyter_nbextensions_configurator \
+        jupyter_console \
         jupyter_dashboards \
         voila \
         ipywidgets && \
@@ -30,7 +32,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.0 \
+ENV NBGALLERY_CLIENT_VERSION=1.1.0 \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
     CHOWN_HOME=yes \
