@@ -1,5 +1,6 @@
-import os
 import json
+import os
+import sys
 
 # Set nbgallery location and client name
 nbgallery_url = os.getenv('NBGALLERY_URL', 'http://localhost:3000')
@@ -20,7 +21,7 @@ c.JupyterApp.allow_credentials = True
 c.JupyterApp.disable_check_xsrf = True
 
 # Update nbconfig file
-config_file = os.path.join(os.path.expanduser('~'), '.jupyter', 'nbconfig', 'common.json')
+config_file = os.path.join(sys.prefix, 'etc', 'jupyter', 'nbconfig', 'common.json')
 with open(config_file) as fp:
     config = json.load(fp)
 config['nbgallery']['url'] = nbgallery_url

@@ -22,11 +22,11 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_dashboards \
         voila \
         ipywidgets && \
-    pip install ipydeps jupyter_nbgallery && \
+    pip install --no-cache-dir ipydeps jupyter_nbgallery && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
-    jupyter nbextension enable --section common jupyter_nbgallery/environment/environment && \
-    jupyter nbextension enable --section notebook jupyter_nbgallery/gallery_menu/gallery_menu && \
-    jupyter serverextension enable jupyter_nbgallery.post_hack && \
+    jupyter nbextension enable --sys-prefix --section common jupyter_nbgallery/environment/environment && \
+    jupyter nbextension enable --sys-prefix --section notebook jupyter_nbgallery/gallery_menu/gallery_menu && \
+    jupyter serverextension enable --sys-prefix jupyter_nbgallery.post_hack && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
