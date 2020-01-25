@@ -22,6 +22,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_dashboards \
         voila \
         ipywidgets && \
+    jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
     pip install --no-cache-dir ipydeps jupyter_nbgallery && \
     echo '######################################## nbgallery configuration' && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
@@ -33,8 +34,11 @@ RUN conda install --yes --insecure --override-channels --quiet \
     jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
     echo '######################################## cleanup' && \
     conda clean --all -f -y && \
+    jlpm cache clean && \
+    npm cache clean --force && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
+    rm -rf /tmp/yarn* /tmp/v8-compile-cache* /tmp/npm* /tmp/*banners && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
