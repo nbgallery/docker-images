@@ -32,6 +32,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     jupyter nbgallery --sys-prefix configure client.name nbgallery-client && \
     jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
     echo '######################################## cleanup' && \
+    conda clean --all -f -y && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
