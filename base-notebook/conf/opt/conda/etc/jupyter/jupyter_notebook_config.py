@@ -2,9 +2,23 @@ import json
 import os
 import sys
 
-# Set nbgallery location and client name
-nbgallery_url = os.getenv('NBGALLERY_URL', 'http://localhost:3000')
-client_name = os.getenv('NBGALLERY_CLIENT_NAME', 'nbgallery-client')
+from notebook.config_manager import BaseJSONConfigManager
+from jupyter_core.paths import jupyter_config_path
+
+# By this point, the nbgallery url should be set in nbconfig/common.json -
+# either baked into the docker image or pulled from the environment by
+# start-notebook.d/2_nbgallery_config.sh.
+def find_nbgallery_url():
+    for config_dir in [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]:
+        cm = BaseJSONConfigManager(config_dir=config_dir)
+        config = cm.get('common')
+        try:
+            return config['nbgallery']['url']
+        except:
+            # keep going
+            pass
+    # Return from environment, or else nbgallery rails default
+    return os.getenv('NBGALLERY_URL', 'http://localhost:3000')
 
 # Jupyter settings
 c.JupyterApp.ip = '0.0.0.0'
@@ -16,16 +30,8 @@ notebook_dir = os.path.join(os.path.expanduser('~'), 'notebooks')
 c.JupyterApp.notebook_dir = notebook_dir
 
 # Security settings required to receive notebooks from nbgallery
+nbgallery_url = find_nbgallery_url()
 c.JupyterApp.allow_origin = nbgallery_url
 c.JupyterApp.allow_credentials = True
 c.JupyterApp.disable_check_xsrf = True
-
-# Update nbconfig file
-config_file = os.path.join(sys.prefix, 'etc', 'jupyter', 'nbconfig', 'common.json')
-with open(config_file) as fp:
-    config = json.load(fp)
-config['nbgallery']['url'] = nbgallery_url
-config['nbgallery']['client']['name'] = client_name
-with open(config_file, 'w') as fp:
-    json.dump(config, fp, indent=2)
 

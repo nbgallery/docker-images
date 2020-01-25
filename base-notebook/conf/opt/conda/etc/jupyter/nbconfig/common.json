@@ -1,9 +1,0 @@
-{
-  "nbgallery": {
-    "url": "http://localhost:3000",
-    "client": {
-      "name": "nbgallery-client"
-    },
-    "environment_registered": false
-  }
-}

@@ -23,10 +23,15 @@ RUN conda install --yes --insecure --override-channels --quiet \
         voila \
         ipywidgets && \
     pip install --no-cache-dir ipydeps jupyter_nbgallery && \
+    echo '######################################## nbgallery configuration' && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
     jupyter nbextension enable --sys-prefix --section common jupyter_nbgallery/environment/environment && \
     jupyter nbextension enable --sys-prefix --section notebook jupyter_nbgallery/gallery_menu/gallery_menu && \
     jupyter serverextension enable --sys-prefix jupyter_nbgallery.post_hack && \
+    jupyter nbgallery --sys-prefix configure url http://localhost:3000 && \
+    jupyter nbgallery --sys-prefix configure client.name nbgallery-client && \
+    jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
+    echo '######################################## cleanup' && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     fix-permissions $CONDA_DIR && \
