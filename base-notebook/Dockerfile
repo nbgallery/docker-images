@@ -8,7 +8,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         fonts-freefont-ttf \
         ssh \
         git \
-        run-one \
+        less \
         vim && \
     rm -rf /var/lib/apt/lists/*
 
@@ -19,7 +19,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_contrib_nbextensions \
         jupyter_nbextensions_configurator \
         jupyter_console \
-        jupyter_dashboards \
         voila \
         ipywidgets && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager && \
@@ -42,7 +41,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.1.0 \
+ENV NBGALLERY_CLIENT_VERSION=1.1.1 \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
     CHOWN_HOME=yes \
