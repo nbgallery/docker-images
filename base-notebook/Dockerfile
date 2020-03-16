@@ -40,6 +40,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \
     rm -rf /home/$NB_USER/.node-gyp && \
+    rm -rf $CONDA_DIR/share/doc/* $CONDA_DIR/share/gtk-doc && \
     rm -rf /tmp/yarn* /tmp/v8-compile-cache* /tmp/npm* /tmp/*banners && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
