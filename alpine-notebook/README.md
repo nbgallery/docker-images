@@ -10,3 +10,8 @@ Some variations that might be worth trying:
 
  * Including `build-base` does add a fair amount of size (relatively speaking) to the image.  If you need to go even smaller, you could remove it and rely on some of the pre-compiled packages in the Alpine repo (e.g. [py3-numpy](https://pkgs.alpinelinux.org/package/v3.10/community/x86_64/py3-numpy)).  Pip doesn't know about these packages, so you would need to either bake them into your docker image or use our package [ipydeps](https://pypi.org/project/ipydeps/).  Ipydeps [can be configured](https://github.com/nbgallery/ipydeps#dependenciesjson) to override pip installs with arbitrary commands to install the package differently -- here is our [old config file](https://github.com/nbgallery/nbgallery/blob/master/public/integration/alpine-py-dependencies.json) (no longer maintained; see also [min-apk-safe](https://github.com/nbgallery/jupyter-alpine/blob/master/util/min-apk-safe) referenced within).
  * Project Jupyter's docker images include Conda, but this image does not.  However, you could try building a conda-based Jupyter image on top of [this Alpine miniconda image](https://github.com/frol/docker-alpine-miniconda3).  That would potentially give you something more similar to the official images.
+ 
+Other related projects:
+ 
+  * [Minimal Dockerfiles for Binder](https://github.com/binder-examples/minimal-dockerfile)
+  * Alpine-based [minimal image for Binder](https://github.com/minrk/smallest-binder)
