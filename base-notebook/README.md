@@ -9,5 +9,17 @@ This repository contains a Jupyter docker image designed to integrate with the [
  * We've added some additional Ubuntu packages. Most notable (from an image size perspective) is [build-essential](https://packages.ubuntu.com/bionic/build-essential), which pulls in gcc/g++.  We support some other languages besides Python, so we often end up needing a compiler.
  * [Jupyter contrib extensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions) and the [configurator](https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator) are installed, with some of our favorites like [Table of Contents](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/nbextensions/toc2/README.html) enabled by default.
  * Jupyter dashboard extensions are installed. We currently use the now-inactive [Jupyter Dashboards](https://github.com/jupyter/dashboards) project in our organization, and we're looking to migrate to [Voila](https://github.com/QuantStack/voila).
-
+* Using this docker image with [Zero to Jupyterhub](https://zero-to-jupyterhub.readthedocs.io/en/latest/) you need to make the following tweak in your local helm config
+```
+singleuser:
+  image:
+    name: nbgallery/base-notebook
+    tag: latest #Use whatever tag you like
+  extraEnv:
+    NBGALLERY_URL: "http://url.for.nbgallery"
+    NBGALLERY_ENABLE_AUTODOWNLOAD: "1" #optional
+    NBGALLERY_ENABLE_INSTRUMENTATION: "1" #optional
+    # Set any other environment variables you need
+  cmd: /usr/local/bin/start-notebook.sh #This is necessary to ensure the envinroment is properly configured
+```
 You can download this image from [Docker Hub](https://hub.docker.com/r/nbgallery/base-notebook).
