@@ -23,6 +23,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
         ipywidgets && \
     jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
     jupyter labextension install @jupyter-voila/jupyterlab-preview --no-build && \
+    jupyter labextension install @jupyterlab/toc --no-build && \
     jupyter lab build && \
     pip install --no-cache-dir ipydeps jupyter_nbgallery && \
     echo '######################################## nbgallery configuration' && \
