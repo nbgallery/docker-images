@@ -33,6 +33,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     jupyter nbgallery --sys-prefix configure url http://localhost:3000 && \
     jupyter nbgallery --sys-prefix configure client.name nbgallery-client && \
     jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
+    echo 'cd $HOME/notebooks' >> /home/$NB_USER/.bashrc && \
     echo '######################################## cleanup' && \
     conda clean --all -f -y && \
     jlpm cache clean && \
