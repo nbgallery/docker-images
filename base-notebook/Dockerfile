@@ -46,7 +46,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.1.3 \
+ENV NBGALLERY_CLIENT_VERSION=1.1.4 \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
     CHOWN_HOME=yes \
