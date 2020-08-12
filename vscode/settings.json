@@ -1,0 +1,6 @@
+{
+    "extensions.autoCheckUpdates": false,
+    "update.mode": "none",
+    "extensions.autoUpdate": false,
+    "python.autoUpdateLanguageServer": false
+}
