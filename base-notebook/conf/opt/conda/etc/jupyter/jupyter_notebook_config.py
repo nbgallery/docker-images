@@ -26,11 +26,12 @@ c.JupyterApp.open_browser = False
 c.JupyterApp.reraise_server_extension_failures = True
 
 # Notebook directory can be mounted in, or it will be created by startup hook
-notebook_dir = os.path.join(os.path.expanduser('~'), 'notebooks')
+notebook_dir = os.getenv('NOTEBOOK_DIR')
 c.JupyterApp.notebook_dir = notebook_dir
 
 # Security settings required to receive notebooks from nbgallery
 nbgallery_url = find_nbgallery_url()
+# To support multiple nbgalleries, use allow_origin_pat = 'regex'
 c.JupyterApp.allow_origin = nbgallery_url
 c.JupyterApp.allow_credentials = True
 c.JupyterApp.disable_check_xsrf = True

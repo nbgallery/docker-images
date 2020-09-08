@@ -35,7 +35,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     jupyter nbgallery --sys-prefix configure url http://localhost:3000 && \
     jupyter nbgallery --sys-prefix configure client.name nbgallery-client && \
     jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
-    echo 'if [ -d $HOME/notebooks ]; then cd $HOME/notebooks; fi' >> /home/$NB_USER/.bashrc && \
+    echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
     echo '######################################## cleanup' && \
     conda clean --all -f -y && \
     jlpm cache clean && \
@@ -48,7 +48,8 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.1.4 \
+ENV NBGALLERY_CLIENT_VERSION=1.1.5 \
+    NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
     CHOWN_HOME=yes \
