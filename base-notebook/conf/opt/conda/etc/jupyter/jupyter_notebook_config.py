@@ -36,3 +36,8 @@ c.JupyterApp.allow_origin = nbgallery_url
 c.JupyterApp.allow_credentials = True
 c.JupyterApp.disable_check_xsrf = True
 
+# Set SameSite cookie options when running secure.
+# Ideally we should check if certfile is set, but within this file
+# there doesn't seem to be a way to check if it was set elsewhere.
+if 'GEN_CERT' in os.environ:
+    c.JupyterApp.cookie_options = {"SameSite": "None", "Secure": True}
