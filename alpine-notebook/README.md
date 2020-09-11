@@ -15,3 +15,4 @@ Other related projects:
  
   * [Minimal Dockerfiles for Binder](https://github.com/binder-examples/minimal-dockerfile)
   * Alpine-based [minimal image for Binder](https://github.com/minrk/smallest-binder)
+  * [Minimal Debian-based image with scientific stack](https://github.com/gitjeff05/jupyterlab-minimalist-image)
