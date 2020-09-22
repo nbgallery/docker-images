@@ -1,0 +1,32 @@
+#!/bin/bash
+
+IMAGE=$1
+IMAGE_NAME=`echo $IMAGE | grep : | cut -d: -f1`
+IMAGE_TAG=`echo $IMAGE | grep : | cut -d: -f2`
+if [[ -z "$IMAGE_NAME" || -z "$IMAGE_TAG" ]]; then
+    echo 'Please specify existing image:tag'
+    exit 1
+fi
+
+PY_VERSION_TAG="python-$(docker run --rm ${IMAGE} python --version 2>&1 | awk '{print $2}')"
+PY_VERSION_IMAGE="$IMAGE_NAME:$PY_VERSION_TAG"
+docker tag $IMAGE $PY_VERSION_IMAGE
+
+NB_VERSION_TAG="notebook-$(docker run --rm -a STDOUT ${IMAGE} jupyter-notebook --version | tr -d '\r')"
+NB_VERSION_IMAGE="$IMAGE_NAME:${NB_VERSION_TAG%% }"
+docker tag $IMAGE $NB_VERSION_IMAGE
+
+LAB_VERSION_TAG="lab-$(docker run --rm -a STDOUT ${IMAGE} jupyter-lab --version | tr -d '\r')"
+LAB_VERSION_IMAGE="$IMAGE_NAME:${LAB_VERSION_TAG%%\r}"
+docker tag $IMAGE $LAB_VERSION_IMAGE
+
+HUB_VERSION_TAG="hub-$(docker run --rm -a STDOUT ${IMAGE} jupyterhub --version | tr -d '\r')"
+HUB_VERSION_IMAGE="$IMAGE_NAME:${HUB_VERSION_TAG%%\r}"
+docker tag $IMAGE $HUB_VERSION_IMAGE
+
+if [[ "$2" == "push" ]]; then
+    docker push $PY_VERSION_IMAGE
+    docker push $NB_VERSION_IMAGE
+    docker push $LAB_VERSION_IMAGE
+    docker push $HUB_VERSION_IMAGE
+fi
