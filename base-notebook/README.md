@@ -23,3 +23,5 @@ singleuser:
   cmd: /usr/local/bin/start-notebook.sh #This is necessary to ensure the envinroment is properly configured
 ```
 You can download this image from [Docker Hub](https://hub.docker.com/r/nbgallery/base-notebook).
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nbgallery/docker-images/main) You can launch this image in Binder. It won't be very interesting without an nbgallery instance, but you can see the extensions we have installed.  Also note that the restartable feature doesn't work because binder overrides the image entrypoint.
