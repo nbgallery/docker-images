@@ -21,23 +21,23 @@ def find_nbgallery_url():
     return os.getenv('NBGALLERY_URL', 'http://localhost:3000')
 
 # Jupyter settings
-c.JupyterApp.ip = '0.0.0.0'
-c.JupyterApp.open_browser = False
-c.JupyterApp.reraise_server_extension_failures = True
+c.NotebookApp.ip = '0.0.0.0'
+c.NotebookApp.open_browser = False
+c.NotebookApp.reraise_server_extension_failures = True
 
 # Notebook directory can be mounted in, or it will be created by startup hook
 notebook_dir = os.getenv('NOTEBOOK_DIR')
-c.JupyterApp.notebook_dir = notebook_dir
+c.NotebookApp.notebook_dir = notebook_dir
 
 # Security settings required to receive notebooks from nbgallery
 nbgallery_url = find_nbgallery_url()
 # To support multiple nbgalleries, use allow_origin_pat = 'regex'
-c.JupyterApp.allow_origin = nbgallery_url
-c.JupyterApp.allow_credentials = True
-c.JupyterApp.disable_check_xsrf = True
+c.NotebookApp.allow_origin = nbgallery_url
+c.NotebookApp.allow_credentials = True
+c.NotebookApp.disable_check_xsrf = True
 
 # Set SameSite cookie options when running secure.
 # Ideally we should check if certfile is set, but within this file
 # there doesn't seem to be a way to check if it was set elsewhere.
 if 'GEN_CERT' in os.environ:
-    c.JupyterApp.cookie_options = {"SameSite": "None", "Secure": True}
+    c.NotebookApp.cookie_options = {"SameSite": "None", "Secure": True}
