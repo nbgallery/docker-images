@@ -15,6 +15,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 
 COPY conf/ /
 
+
 RUN conda install --yes --insecure --override-channels --quiet \
     --channel conda-forge \
         jupyter_contrib_nbextensions \
@@ -50,7 +51,29 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.1.5 \
+# TODO temporary patches for unresolved upstream bugs
+# mathjax patch (introduced by notebook 6.1.6):
+#     https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/125
+# template_paths patch (introduced by nbconvert 6.0):
+#     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
+#     https://github.com/jfbercher/jupyter_latex_envs/pull/58
+#     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/pull/1532
+RUN \
+    echo '######################################## temporary patches' && \
+    pushd $CONDA_DIR/lib/python3.*/site-packages && \
+    sed -i 's,notebook/js/mathjaxutils,base/js/mathjaxutils,' \
+        jupyter_nbextensions_configurator/static/nbextensions_configurator/render/render.js && \
+    sed -i '/template_paths/! s/template_path/template_paths/g' \
+        latex_envs/latex_envs.py \
+        jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
+        jupyter_contrib_nbextensions/nbconvert_support/toc2.py \
+        jupyter_contrib_nbextensions/migrate.py \
+        jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
+        jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
+        jupyter_contrib_nbextensions/install.py && \
+    popd
+
+ENV NBGALLERY_CLIENT_VERSION=1.1.6 \
     NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
