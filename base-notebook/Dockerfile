@@ -60,11 +60,15 @@ RUN conda install --yes --insecure --override-channels --quiet \
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
 #     https://github.com/jfbercher/jupyter_latex_envs/pull/58
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/pull/1532
+# configurator patch (lab3/nbclassic compatibility):
+#     https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/127
 RUN \
     echo '######################################## temporary patches' && \
     pushd $CONDA_DIR/lib/python3.*/site-packages && \
+    echo '#### mathjax patch' && \
     sed -i 's,notebook/js/mathjaxutils,base/js/mathjaxutils,' \
         jupyter_nbextensions_configurator/static/nbextensions_configurator/render/render.js && \
+    echo '#### template_paths patch' && \
     sed -i '/template_paths/! s/template_path/template_paths/g' \
         latex_envs/latex_envs.py \
         jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
@@ -73,6 +77,12 @@ RUN \
         jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
         jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
         jupyter_contrib_nbextensions/install.py && \
+    echo '#### configurator patch' && \
+    sed -i -r \
+        -e '/if static_files_path not in/d' \
+        -e '/append\(static_files_path\)/d' \
+        jupyter_nbextensions_configurator/__init__.py && \
+    jupyter nbextension install jupyter_nbextensions_configurator --py --sys-prefix --symlink && \
     popd
 
 ENV NBGALLERY_CLIENT_VERSION=2.0.0 \
