@@ -27,10 +27,10 @@ RUN conda install --yes --insecure --override-channels --quiet \
         --channel conda-forge jupyterlab && \
     echo '######################################## Jupyter configuration' && \
     sed -r \
-      -e 's/c.NotebookApp/c.ServerApp/g' \
-      -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
-      $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
-      $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
+        -e 's/c.NotebookApp/c.ServerApp/g' \
+        -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
+        $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
+        $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install --no-cache-dir ipydeps jupyter_nbgallery && \
     echo '######################################## nbgallery configuration' && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
