@@ -15,7 +15,6 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 
 COPY conf/ /
 
-
 RUN conda install --yes --insecure --override-channels --quiet \
     --channel conda-forge \
         jupyter_contrib_nbextensions \
@@ -23,12 +22,10 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_console \
         voila \
         ipywidgets && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
-    jupyter labextension install @jupyter-voila/jupyterlab-preview --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
-    jupyter lab build && \
+    echo '######################################## TEMPORARY upgrade Lab' && \
+    conda upgrade --yes --insecure --override-channels --quiet \
+        --channel conda-forge jupyterlab && \
+    echo '######################################## Jupyter configuration' && \
     pip install --no-cache-dir ipydeps jupyter_nbgallery && \
     echo '######################################## nbgallery configuration' && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
@@ -73,7 +70,7 @@ RUN \
         jupyter_contrib_nbextensions/install.py && \
     popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.1.6 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.0 \
     NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
