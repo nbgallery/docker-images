@@ -31,7 +31,12 @@ RUN conda install --yes --insecure --override-channels --quiet \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
-    pip install --no-cache-dir ipydeps jupyter_nbgallery && \
+    pip install --no-cache-dir \
+        jupyterlab-classic \
+        ipydeps \
+        jupyterlab-nbgallery \
+        jupyter-nbgallery && \
+    jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
     jupyter nbextension enable --sys-prefix --section common jupyter_nbgallery/environment/environment && \
