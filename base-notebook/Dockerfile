@@ -32,6 +32,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install --no-cache-dir \
+        aquirdturtle_collapsible_headings \
         jupyterlab-classic \
         ipydeps \
         jupyterlab-nbgallery \
