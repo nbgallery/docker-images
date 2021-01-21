@@ -61,8 +61,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions /home/$NB_USER
 
 # TODO temporary patches for unresolved upstream bugs
-# mathjax patch (introduced by notebook 6.1.6):
-#     https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/125
 # template_paths patch (introduced by nbconvert 6.0):
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
 #     https://github.com/jfbercher/jupyter_latex_envs/pull/58
@@ -72,9 +70,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
 RUN \
     echo '######################################## temporary patches' && \
     pushd $CONDA_DIR/lib/python3.*/site-packages && \
-    echo '#### mathjax patch' && \
-    sed -i 's,notebook/js/mathjaxutils,base/js/mathjaxutils,' \
-        jupyter_nbextensions_configurator/static/nbextensions_configurator/render/render.js && \
     echo '#### template_paths patch' && \
     sed -i '/template_paths/! s/template_path/template_paths/g' \
         latex_envs/latex_envs.py \
