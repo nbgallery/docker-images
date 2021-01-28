@@ -22,9 +22,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_console \
         voila \
         ipywidgets && \
-    echo '######################################## TEMPORARY upgrade Lab' && \
-    conda upgrade --yes --insecure --override-channels --quiet \
-        --channel conda-forge jupyterlab && \
     echo '######################################## Jupyter configuration' && \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
@@ -87,7 +84,7 @@ RUN \
     jupyter nbextension install jupyter_nbextensions_configurator --py --sys-prefix --symlink && \
     popd
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.0 \
+ENV NBGALLERY_CLIENT_VERSION=1.2.0 \
     NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
