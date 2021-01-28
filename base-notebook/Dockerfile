@@ -31,7 +31,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
     pip install --no-cache-dir \
         aquirdturtle_collapsible_headings \
         lckr-jupyterlab-variableinspector \
-        jupyterlab-classic \
         ipydeps \
         jupyterlab-nbgallery \
         jupyter-nbgallery && \
