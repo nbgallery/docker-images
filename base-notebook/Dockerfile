@@ -15,7 +15,6 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 
 COPY conf/ /
 
-
 RUN conda install --yes --insecure --override-channels --quiet \
     --channel conda-forge \
         jupyter_contrib_nbextensions \
@@ -23,13 +22,19 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter_console \
         voila \
         ipywidgets && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager --no-build && \
-    jupyter labextension install @jupyter-voila/jupyterlab-preview --no-build && \
-    jupyter labextension install @jupyterlab/toc --no-build && \
-    jupyter labextension install @aquirdturtle/collapsible_headings --no-build && \
-    jupyter labextension install @lckr/jupyterlab_variableinspector --no-build && \
+    echo '######################################## Jupyter configuration' && \
+    sed -r \
+        -e 's/c.NotebookApp/c.ServerApp/g' \
+        -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
+        $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
+        $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
+    pip install --no-cache-dir \
+        aquirdturtle_collapsible_headings \
+        lckr-jupyterlab-variableinspector \
+        ipydeps \
+        jupyterlab-nbgallery \
+        jupyter-nbgallery && \
     jupyter lab build && \
-    pip install --no-cache-dir ipydeps jupyter_nbgallery && \
     echo '######################################## nbgallery configuration' && \
     jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
     jupyter nbextension enable --sys-prefix --section common jupyter_nbgallery/environment/environment && \
@@ -52,17 +57,16 @@ RUN conda install --yes --insecure --override-channels --quiet \
     fix-permissions /home/$NB_USER
 
 # TODO temporary patches for unresolved upstream bugs
-# mathjax patch (introduced by notebook 6.1.6):
-#     https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/125
 # template_paths patch (introduced by nbconvert 6.0):
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
 #     https://github.com/jfbercher/jupyter_latex_envs/pull/58
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/pull/1532
+# configurator patch (lab3/nbclassic compatibility):
+#     https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator/issues/127
 RUN \
     echo '######################################## temporary patches' && \
     pushd $CONDA_DIR/lib/python3.*/site-packages && \
-    sed -i 's,notebook/js/mathjaxutils,base/js/mathjaxutils,' \
-        jupyter_nbextensions_configurator/static/nbextensions_configurator/render/render.js && \
+    echo '#### template_paths patch' && \
     sed -i '/template_paths/! s/template_path/template_paths/g' \
         latex_envs/latex_envs.py \
         jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
@@ -71,9 +75,15 @@ RUN \
         jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
         jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
         jupyter_contrib_nbextensions/install.py && \
+    echo '#### configurator patch' && \
+    sed -i -r \
+        -e '/if static_files_path not in/d' \
+        -e '/append\(static_files_path\)/d' \
+        jupyter_nbextensions_configurator/__init__.py && \
+    jupyter nbextension install jupyter_nbextensions_configurator --py --sys-prefix --symlink && \
     popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.1.6 \
+ENV NBGALLERY_CLIENT_VERSION=1.2.0 \
     NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
