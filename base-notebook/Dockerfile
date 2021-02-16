@@ -36,10 +36,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter-nbgallery && \
     jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
-    jupyter nbextension install jupyter_nbgallery --py --sys-prefix && \
-    jupyter nbextension enable --sys-prefix --section common jupyter_nbgallery/environment/environment && \
-    jupyter nbextension enable --sys-prefix --section notebook jupyter_nbgallery/gallery_menu/gallery_menu && \
-    jupyter serverextension enable --sys-prefix jupyter_nbgallery.post_hack && \
     jupyter nbgallery --sys-prefix configure url http://localhost:3000 && \
     jupyter nbgallery --sys-prefix configure client.name nbgallery-client && \
     jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
@@ -83,7 +79,7 @@ RUN \
     jupyter nbextension install jupyter_nbextensions_configurator --py --sys-prefix --symlink && \
     popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.2.0 \
+ENV NBGALLERY_CLIENT_VERSION=1.2.1 \
     NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
