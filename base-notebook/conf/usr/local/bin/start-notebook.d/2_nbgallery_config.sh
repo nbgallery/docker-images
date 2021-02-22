@@ -1,14 +1,17 @@
 # nbgallery general configuration
 
 if [[ -n "$NBGALLERY_URL" ]]; then
+  echo "Setting nbgallery URL to $NBGALLERY_URL"
   jupyter nbgallery --sys-prefix configure url "$NBGALLERY_URL"
 fi
 
 if [[ -n "$NBGALLERY_CLIENT_NAME" ]]; then
+  echo "Setting nbgallery client name to $NBGALLERY_CLIENT_NAME"
   jupyter nbgallery --sys-prefix configure client.name "$NBGALLERY_CLIENT_NAME"
 fi
 
 if [[ -n "$NBGALLERY_CLIENT_TYPE" ]]; then
+  echo "Setting nbgallery client type to $NBGALLERY_CLIENT_TYPE"
   jupyter nbgallery --sys-prefix configure client.type "$NBGALLERY_CLIENT_TYPE"
 fi
 

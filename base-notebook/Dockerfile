@@ -37,9 +37,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
         jupyter-nbgallery && \
     jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
-    jupyter nbgallery --sys-prefix configure url http://localhost:3000 && \
-    jupyter nbgallery --sys-prefix configure client.name nbgallery-client && \
-    jupyter nbgallery --sys-prefix configure client.type nbgallery-base-notebook && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
     echo '######################################## cleanup' && \
     conda clean --all -f -y && \
@@ -80,7 +77,10 @@ RUN \
     jupyter nbextension install jupyter_nbextensions_configurator --py --sys-prefix --symlink && \
     popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.2.1 \
+ENV NBGALLERY_CLIENT_VERSION=1.2.2 \
+    NBGALLERY_URL=http://localhost:3000 \
+    NBGALLERY_CLIENT_NAME=nbgallery-client \
+    NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
     NOTEBOOK_DIR=/home/$NB_USER/notebooks \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
