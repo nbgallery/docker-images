@@ -26,6 +26,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
+        -e 's/c.ServerApp.open_browser/c.ExtensionApp.open_browser/g' \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install --no-cache-dir \
