@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:584f43f06586
+FROM jupyter/base-notebook:12ba1d59fbc3
 
 USER root
 
@@ -30,7 +30,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install --no-cache-dir \
-        aquirdturtle_collapsible_headings \
         lckr-jupyterlab-variableinspector \
         ipydeps \
         jupyterlab-nbgallery \
@@ -77,7 +76,7 @@ RUN \
     jupyter nbextension install jupyter_nbextensions_configurator --py --sys-prefix --symlink && \
     popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.2.3 \
+ENV NBGALLERY_CLIENT_VERSION=1.2.4 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
