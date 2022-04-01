@@ -17,8 +17,6 @@ COPY conf/ /
 
 RUN conda install --yes --insecure --override-channels --quiet \
     --channel conda-forge \
-        jupyter_contrib_nbextensions \
-        jupyter_nbextensions_configurator \
         jupyter_console \
         voila \
         ipywidgets && \
@@ -54,19 +52,19 @@ RUN conda install --yes --insecure --override-channels --quiet \
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
 #     https://github.com/jfbercher/jupyter_latex_envs/pull/58
 #     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/pull/1532
-RUN \
-    echo '######################################## temporary patches' && \
-    pushd $CONDA_DIR/lib/python3.*/site-packages && \
-    echo '#### template_paths patch' && \
-    sed -i '/template_paths/! s/template_path/template_paths/g' \
-        latex_envs/latex_envs.py \
-        jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
-        jupyter_contrib_nbextensions/nbconvert_support/toc2.py \
-        jupyter_contrib_nbextensions/migrate.py \
-        jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
-        jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
-        jupyter_contrib_nbextensions/install.py && \
-    popd
+#RUN \
+#    echo '######################################## temporary patches' && \
+#    pushd $CONDA_DIR/lib/python3.*/site-packages && \
+#    echo '#### template_paths patch' && \
+#    sed -i '/template_paths/! s/template_path/template_paths/g' \
+#        latex_envs/latex_envs.py \
+#        jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
+#        jupyter_contrib_nbextensions/nbconvert_support/toc2.py \
+#        jupyter_contrib_nbextensions/migrate.py \
+#        jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
+#        jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
+#        jupyter_contrib_nbextensions/install.py && \
+#    popd
 
 ENV NBGALLERY_CLIENT_VERSION=1.2.8 \
     NBGALLERY_URL=http://localhost:3000 \
