@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:666416b385e8
+FROM jupyter/base-notebook:807999a41207
 
 USER root
 
@@ -66,7 +66,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
 #        jupyter_contrib_nbextensions/install.py && \
 #    popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.1 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.2 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
