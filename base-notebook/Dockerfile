@@ -66,7 +66,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
 #        jupyter_contrib_nbextensions/install.py && \
 #    popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.4 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.5 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
