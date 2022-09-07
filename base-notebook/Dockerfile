@@ -15,12 +15,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 
 COPY conf/ /
 
-RUN conda install --yes --insecure --override-channels --quiet \
-    --channel conda-forge \
-        jupyter_console \
-        voila \
-        ipywidgets && \
-    echo '######################################## Jupyter configuration' && \
+RUN   echo '######################################## Jupyter configuration' && \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
@@ -29,9 +24,13 @@ RUN conda install --yes --insecure --override-channels --quiet \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install -U --no-cache-dir \
         ipydeps \
-        jupyterlab-nbgallery \
-        jupyter-nbgallery  \
+        jupyterlab_nbgallery==1.0.5a2 \
+        jupyter_nbgallery  \
+        voila \
+        ipywidgets \
+        jupyter_console \
         notebook==7.0.0a5 && \
+    pip uninstall -y nbclassic && \
     jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
