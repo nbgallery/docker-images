@@ -9,14 +9,14 @@ from jupyter_core.paths import jupyter_config_path
 # either baked into the docker image or pulled from the environment by
 # start-notebook.d/2_nbgallery_config.sh.
 def find_nbgallery_url():
-    for config_dir in [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]:
-        cm = BaseJSONConfigManager(config_dir=config_dir)
-        config = cm.get('common')
-        try:
-            return config['nbgallery']['url']
-        except:
-            # keep going
-            pass
+    #for config_dir in [os.path.join(p, 'nbconfig') for p in jupyter_config_path()]:
+    #    cm = BaseJSONConfigManager(config_dir=config_dir)
+    #    config = cm.get('common')
+    #    try:
+    #        return config['nbgallery']['url']
+    #    except:
+    #        # keep going
+    #        pass
     # Return from environment, or else nbgallery rails default
     return os.getenv('NBGALLERY_URL', 'http://localhost:3000')
 

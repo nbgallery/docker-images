@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:18b10e7f732d
+FROM jupyter/base-notebook:83a5335f7132
 
 USER root
 
@@ -27,11 +27,11 @@ RUN conda install --yes --insecure --override-channels --quiet \
         -e 's/c.ServerApp.open_browser/c.ExtensionApp.open_browser/g' \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
-    pip install --no-cache-dir \
-        lckr-jupyterlab-variableinspector \
+    pip install -U --no-cache-dir \
         ipydeps \
         jupyterlab-nbgallery \
-        jupyter-nbgallery && \
+        jupyter-nbgallery  \
+        notebook==7.0.0a5 && \
     jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
@@ -46,25 +46,6 @@ RUN conda install --yes --insecure --override-channels --quiet \
     rm -rf /tmp/yarn* /tmp/v8-compile-cache* /tmp/npm* /tmp/*banners && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
-# TODO temporary patches for unresolved upstream bugs
-# template_paths patch (introduced by nbconvert 6.0):
-#     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
-#     https://github.com/jfbercher/jupyter_latex_envs/pull/58
-#     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/pull/1532
-#RUN \
-#    echo '######################################## temporary patches' && \
-#    pushd $CONDA_DIR/lib/python3.*/site-packages && \
-#    echo '#### template_paths patch' && \
-#    sed -i '/template_paths/! s/template_path/template_paths/g' \
-#        latex_envs/latex_envs.py \
-#        jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
-#        jupyter_contrib_nbextensions/nbconvert_support/toc2.py \
-#        jupyter_contrib_nbextensions/migrate.py \
-#        jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
-#        jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
-#        jupyter_contrib_nbextensions/install.py && \
-#    popd
 
 ENV NBGALLERY_CLIENT_VERSION=1.3.5 \
     NBGALLERY_URL=http://localhost:3000 \
