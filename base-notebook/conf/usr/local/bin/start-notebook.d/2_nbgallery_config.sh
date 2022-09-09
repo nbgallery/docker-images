@@ -20,6 +20,7 @@ fi
 
 if [[ "$NBGALLERY_ENABLE_AUTODOWNLOAD" == "yes" || "$NBGALLERY_ENABLE_AUTODOWNLOAD" == "1" ]]; then
   echo 'Enabling nbgallery autodownload extension'
+  jupyter labextension enable @jupyterlab_nbgallery/autodownload
   #jupyter nbclassic extension enable --sys-prefix --section tree jupyter_nbgallery/autodownload/autodownload
 fi
 
@@ -31,6 +32,7 @@ fi
 
 if [[ "$NBGALLERY_ENABLE_INSTRUMENTATION" == "yes" || "$NBGALLERY_ENABLE_INSTRUMENTATION" == "1" ]]; then
   echo 'Enabling nbgallery instrumentation extension'
+  jupyter labextension enable @jupyterlab_nbgallery/instrumentation
   #jupyter nbclassic nbextension enable --sys-prefix --section notebook jupyter_nbgallery/instrumentation/instrumentation
 fi
 

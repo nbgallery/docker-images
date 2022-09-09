@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 
 COPY conf/ /
 
-RUN   echo '######################################## Jupyter configuration' && \
+RUN echo '######################################## Jupyter configuration' && \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
@@ -29,8 +29,11 @@ RUN   echo '######################################## Jupyter configuration' && \
         voila \
         ipywidgets \
         jupyter_console \
-        notebook==7.0.0a5 && \
+        notebook==7.0.0a5 \
+        jupyterlab==4.0.0a27 && \
     pip uninstall -y nbclassic && \
+    jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
+    jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
     jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
