@@ -2,7 +2,7 @@ import json
 import os
 import sys
 
-from notebook.config_manager import BaseJSONConfigManager
+from jupyter_server.config_manager import BaseJSONConfigManager
 from jupyter_core.paths import jupyter_config_path
 
 # By this point, the nbgallery url should be set in nbconfig/common.json -

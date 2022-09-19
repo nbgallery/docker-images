@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:18b10e7f732d
+FROM jupyter/base-notebook:180219634754
 
 USER root
 
@@ -15,12 +15,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
 
 COPY conf/ /
 
-RUN conda install --yes --insecure --override-channels --quiet \
-    --channel conda-forge \
-        jupyter_console \
-        voila \
-        ipywidgets && \
-    echo '######################################## Jupyter configuration' && \
+RUN echo '######################################## Jupyter configuration' && \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
@@ -28,7 +23,9 @@ RUN conda install --yes --insecure --override-channels --quiet \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install --no-cache-dir \
-        lckr-jupyterlab-variableinspector \
+        voila \
+        jupyter_console \
+        ipywidgets \
         ipydeps \
         jupyterlab-nbgallery \
         jupyter-nbgallery && \
@@ -66,7 +63,7 @@ RUN conda install --yes --insecure --override-channels --quiet \
 #        jupyter_contrib_nbextensions/install.py && \
 #    popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.5 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.7 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
