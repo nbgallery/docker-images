@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:83a5335f7132
+FROM jupyter/base-notebook:180219634754
 
 USER root
 
@@ -24,13 +24,13 @@ RUN echo '######################################## Jupyter configuration' && \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install -U --no-cache-dir \
         ipydeps \
-        jupyterlab_nbgallery==1.0.5a2 \
+        jupyterlab_nbgallery==1.0.5 \
         jupyter_nbgallery  \
         voila \
         ipywidgets \
         jupyter_console \
         notebook==7.0.0a5 \
-        jupyterlab==4.0.0a27 && \
+        jupyterlab==4.0.0a28 && \
     pip uninstall -y nbclassic && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
