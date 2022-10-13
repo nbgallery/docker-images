@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:180219634754
+FROM jupyter/base-notebook:d5256ad236da
 
 USER root
 
@@ -63,7 +63,7 @@ RUN echo '######################################## Jupyter configuration' && \
 #        jupyter_contrib_nbextensions/install.py && \
 #    popd
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.7 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.8 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
