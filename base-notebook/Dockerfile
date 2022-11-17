@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:180219634754
+FROM jupyter/base-notebook:34dbb9c3b0fe
 
 USER root
 
@@ -24,14 +24,14 @@ RUN echo '######################################## Jupyter configuration' && \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
     pip install -U --no-cache-dir \
         ipydeps \
-        jupyterlab_nbgallery==1.0.5 \
+        jupyterlab_nbgallery \
         jupyter_nbgallery  \
         voila \
         ipywidgets \
         jupyter_console \
-        notebook==7.0.0a5 \
-        jupyterlab==4.0.0a28 && \
-    pip uninstall -y nbclassic && \
+        notebook==7.0.0a7 \
+        jupyterlab==4.0.0a30 \
+        nbclassic==0.4.7 && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
     jupyter lab build && \
@@ -49,7 +49,7 @@ RUN echo '######################################## Jupyter configuration' && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.5 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.8b \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
