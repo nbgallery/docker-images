@@ -1,6 +1,8 @@
-FROM jupyter/base-notebook:d5256ad236da
+FROM jupyter/base-notebook:3772a8085dc5
 
 USER root
+
+COPY conf/ /
 
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
@@ -11,11 +13,8 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         git \
         less \
         vim && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY conf/ /
-
-RUN echo '######################################## Jupyter configuration' && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo '######################################## Jupyter configuration' && \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
@@ -29,7 +28,6 @@ RUN echo '######################################## Jupyter configuration' && \
         ipydeps \
         jupyterlab-nbgallery \
         jupyter-nbgallery && \
-    jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
     echo '######################################## cleanup' && \
@@ -44,26 +42,7 @@ RUN echo '######################################## Jupyter configuration' && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# TODO temporary patches for unresolved upstream bugs
-# template_paths patch (introduced by nbconvert 6.0):
-#     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529
-#     https://github.com/jfbercher/jupyter_latex_envs/pull/58
-#     https://github.com/ipython-contrib/jupyter_contrib_nbextensions/pull/1532
-#RUN \
-#    echo '######################################## temporary patches' && \
-#    pushd $CONDA_DIR/lib/python3.*/site-packages && \
-#    echo '#### template_paths patch' && \
-#    sed -i '/template_paths/! s/template_path/template_paths/g' \
-#        latex_envs/latex_envs.py \
-#        jupyter_contrib_nbextensions/nbconvert_support/exporter_inliner.py \
-#        jupyter_contrib_nbextensions/nbconvert_support/toc2.py \
-#        jupyter_contrib_nbextensions/migrate.py \
-#        jupyter_contrib_nbextensions/config_scripts/highlight_latex_cfg.py \
-#        jupyter_contrib_nbextensions/config_scripts/highlight_html_cfg.py \
-#        jupyter_contrib_nbextensions/install.py && \
-#    popd
-
-ENV NBGALLERY_CLIENT_VERSION=1.3.8 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.9 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
