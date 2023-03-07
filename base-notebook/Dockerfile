@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:7ea428dfd041
+FROM jupyter/base-notebook:f16d1e3a935a
 
 USER root
 
@@ -21,7 +21,9 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         -e 's/c.ServerApp.open_browser/c.ExtensionApp.open_browser/g' \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
+    pip uninstall -y jupyter_server_terminals && \
     pip install --no-cache-dir \
+        jupyter_server==1.23.6 \
         voila \
         jupyter_console \
         ipywidgets \
@@ -42,7 +44,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.10 \
+ENV NBGALLERY_CLIENT_VERSION=1.3.11 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
