@@ -1,6 +1,8 @@
-FROM jupyter/base-notebook:34dbb9c3b0fe
+FROM jupyter/base-notebook:c77245e2acbc
 
 USER root
+
+COPY conf/ /
 
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
@@ -11,45 +13,34 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         git \
         less \
         vim && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY conf/ /
-
-RUN echo '######################################## Jupyter configuration' && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo '######################################## Jupyter configuration' && \
     sed -r \
         -e 's/c.NotebookApp/c.ServerApp/g' \
         -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
         -e 's/c.ServerApp.open_browser/c.ExtensionApp.open_browser/g' \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
+    pip install voila==0.4.0 && \
     pip install -U --no-cache-dir \
         ipydeps \
-        jupyterlab_nbgallery \
+        jupyterlab_nbgallery==2.0.0a1 \
         jupyter_nbgallery  \
-        voila \
         ipywidgets \
         jupyter_console \
-        notebook==7.0.0a7 \
-        jupyterlab==4.0.0a30 \
-        nbclassic==0.4.7 && \
+        notebook==7.0.0b0 \
+        jupyterlab==4.0.0b0 && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
-    jupyter lab build && \
     echo '######################################## nbgallery configuration' && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
     echo '######################################## cleanup' && \
-    conda clean --all -f -y && \
-    jlpm cache clean && \
-    npm cache clean --force && \
-    rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
-    rm -rf /home/$NB_USER/.cache/yarn && \
-    rm -rf /home/$NB_USER/.node-gyp && \
     rm -rf $CONDA_DIR/share/doc/* $CONDA_DIR/share/gtk-doc && \
     rm -rf /tmp/yarn* /tmp/v8-compile-cache* /tmp/npm* /tmp/*banners && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=1.3.8b \
+ENV NBGALLERY_CLIENT_VERSION=2.0.0a2 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
