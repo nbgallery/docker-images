@@ -24,7 +24,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     pip install voila==0.4.0 && \
     pip install -U --no-cache-dir \
         ipydeps \
-        jupyterlab_nbgallery==2.0.0a1 \
+        jupyterlab_nbgallery==2.0.0a4 \
         jupyter_nbgallery  \
         ipywidgets \
         jupyter_console \
@@ -40,7 +40,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.0a2 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.0a4 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
