@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:513d0cb8a67c
+FROM jupyter/base-notebook:1fa0829d9ff9
 
 USER root
 
@@ -28,7 +28,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         jupyter_nbgallery  \
         ipywidgets \
         jupyter_console \
-        notebook==7.0.0b2 \
+        notebook==7.0.0b4 \
         jupyterlab && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
@@ -40,7 +40,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.0a8 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.0a10 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
