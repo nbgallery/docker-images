@@ -20,17 +20,19 @@ fi
 
 if [[ "$NBGALLERY_ENABLE_AUTODOWNLOAD" == "yes" || "$NBGALLERY_ENABLE_AUTODOWNLOAD" == "1" ]]; then
   echo 'Enabling nbgallery autodownload extension'
-  jupyter nbextension enable --sys-prefix --section tree jupyter_nbgallery/autodownload/autodownload
+  jupyter labextension enable @jupyterlab_nbgallery/autodownload
+  jupyter-nbclassic-extension enable --sys-prefix --section tree jupyter_nbgallery/autodownload/autodownload
 fi
 
 if [[ "$NBGALLERY_ENABLE_EASY_BUTTONS" == "yes" || "$NBGALLERY_ENABLE_EASY_BUTTONS" == "1" ]]; then
   echo 'Enabling nbgallery easy buttons extension'
-  jupyter nbextension enable --sys-prefix --section notebook jupyter_nbgallery/easy_buttons/easy_buttons
+  jupyter-nbclassic-extension enable --sys-prefix --section notebook jupyter_nbgallery/easy_buttons/easy_buttons
   jupyter nbgallery --sys-prefix configure easy_buttons True
 fi
 
 if [[ "$NBGALLERY_ENABLE_INSTRUMENTATION" == "yes" || "$NBGALLERY_ENABLE_INSTRUMENTATION" == "1" ]]; then
   echo 'Enabling nbgallery instrumentation extension'
-  jupyter nbextension enable --sys-prefix --section notebook jupyter_nbgallery/instrumentation/instrumentation
+  jupyter labextension enable @jupyterlab_nbgallery/instrumentation
+  jupyter-nbclassic-extension enable --sys-prefix --section notebook jupyter_nbgallery/instrumentation/instrumentation
 fi
 
