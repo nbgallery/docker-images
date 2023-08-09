@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:b8d617dc0568
+FROM jupyter/base-notebook:0ba7a4c15aab
 
 USER root
 
@@ -21,7 +21,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         -e 's/c.ServerApp.open_browser/c.ExtensionApp.open_browser/g' \
         $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
         $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
-    pip install voila==0.5.0a5 \
+    pip install voila==0.5.0b1 \
     pip install --no-cache-dir \
         ipydeps \
         jupyterlab_nbgallery \
@@ -38,7 +38,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.0 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.1 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
