@@ -14,14 +14,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         less \
         vim && \
     rm -rf /var/lib/apt/lists/* && \
-    echo '######################################## Jupyter configuration' && \
-    sed -r \
-        -e 's/c.NotebookApp/c.ServerApp/g' \
-        -e 's/c.ServerApp.notebook_dir/c.ServerApp.root_dir/g' \
-        -e 's/c.ServerApp.open_browser/c.ExtensionApp.open_browser/g' \
-        $CONDA_DIR/etc/jupyter/jupyter_notebook_config.py > \
-        $CONDA_DIR/etc/jupyter/jupyter_server_config.py && \
-    pip install voila==0.5.0b1 \
+    pip install voila==0.5.0b1 && \
     pip install --no-cache-dir \
         ipydeps \
         jupyterlab_nbgallery \
@@ -38,7 +31,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.1 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.2 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
