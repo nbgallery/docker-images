@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:0ba7a4c15aab
+FROM jupyter/base-notebook:72ef9bc17da0
 
 USER root
 
@@ -31,7 +31,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.2 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.3 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
