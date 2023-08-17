@@ -14,13 +14,13 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         less \
         vim && \
     rm -rf /var/lib/apt/lists/* && \
-    pip install voila==0.5.0b1 && \
     pip install --no-cache-dir \
         ipydeps \
         jupyterlab_nbgallery \
         jupyter_nbgallery  \
         ipywidgets \
-        jupyter_console && \
+        jupyter_console \
+        voila && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
     echo '######################################## nbgallery configuration' && \
@@ -31,7 +31,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.3 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.4 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
