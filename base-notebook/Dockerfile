@@ -14,13 +14,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         less \
         vim && \
     rm -rf /var/lib/apt/lists/* && \
-    pip install --no-cache-dir \
-        ipydeps \
-        jupyterlab_nbgallery \
-        jupyter_nbgallery  \
-        ipywidgets \
-        jupyter_console \
-        voila && \
+    pip install --no-cache-dir -r /etc/requirements.txt && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
     echo '######################################## nbgallery configuration' && \
