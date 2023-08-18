@@ -22,7 +22,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    environment: nbgallery
     permissions:
       contents: read
       packages: write
