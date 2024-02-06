@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/base-notebook:dc6432a4eba1
+FROM quay.io/jupyter/base-notebook:949af9bbd57d
 
 USER root
 
