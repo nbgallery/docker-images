@@ -6,7 +6,5 @@ This repository contains Jupyter docker images developed by the [nbgallery](http
 
   * [nbgallery/base-notebook](base-notebook): This is the base image that we use in production deployments with the [nbgallery](https://github.com/nbgallery/nbgallery) notebook collaboration platform.  It is built on top of Project Jupyter's official [jupyter/base-notebook](https://github.com/jupyter/docker-stacks/tree/master/base-notebook) and is available at [Docker Hub](https://hub.docker.com/r/nbgallery/base-notebook).  The image contains Jupyter [extensions](https://github.com/nbgallery/nbgallery-extensions) to [integrate](https://github.com/nbgallery/nbgallery/blob/master/docs/jupyter_integration.md) with the nbgallery.
   * Experimental additions to `nbgallery/base-notebook` - these are not actively maintained, but contain Dockerfiles to add features that you may be interested in:
-    * [vscode](vscode): Adds vscode server within Jupyter
     * [PDF via LaTeX](pdf-latex): Adds support for notebook-to-PDF conversion via LaTeX
     * [PDF via HTML](pdf-html): Adds support for notebook-to-PDF conversion via HTML using Chromium
-  * [nbgallery/alpine-notebook](alpine-notebook): A simple Jupyter image built on Alpine Linux, *without* nbgallery integration.  This image is about half the size of `jupyter/base-notebook`.  We've [moved off of Alpine](https://github.com/nbgallery/jupyter-alpine#repository-status) but thought it might be useful to the community to capture some of our experience using Jupyter on Alpine in production.
