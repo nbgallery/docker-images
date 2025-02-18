@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/base-notebook:dd06b93abc41
+FROM quay.io/jupyter/base-notebook:b74418220768
 
 USER root
 
@@ -25,7 +25,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.10 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.11 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
