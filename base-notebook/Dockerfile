@@ -22,10 +22,11 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     echo '######################################## cleanup' && \
     rm -rf $CONDA_DIR/share/doc/* $CONDA_DIR/share/gtk-doc && \
     rm -rf /tmp/yarn* /tmp/v8-compile-cache* /tmp/npm* /tmp/*banners && \
+    rm -rf /etc/ssh/ssh_host* && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-ENV NBGALLERY_CLIENT_VERSION=2.0.11 \
+ENV NBGALLERY_CLIENT_VERSION=2.0.12 \
     NBGALLERY_URL=http://localhost:3000 \
     NBGALLERY_CLIENT_NAME=nbgallery-client \
     NBGALLERY_CLIENT_TYPE=nbgallery-base-notebook \
@@ -33,7 +34,8 @@ ENV NBGALLERY_CLIENT_VERSION=2.0.11 \
     RESTARTABLE=yes \
     GRANT_SUDO=yes \
     CHOWN_HOME=yes \
-    CHOWN_HOME_OPTS='-R'
+    CHOWN_HOME_OPTS='-R' \
+    REGENERATE_SSH_KEYS=no
 
 LABEL maintainer="https://github.com/nbgallery" \
       version="$NBGALLERY_CLIENT_VERSION" \
