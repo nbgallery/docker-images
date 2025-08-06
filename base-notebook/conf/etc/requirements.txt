@@ -1,7 +1,7 @@
-ipydeps==2024.33.0
+ipydeps==2025.183.1245
 ipywidgets==8.1.1
 jupyter-console==6.6.3
 jupyter-nbgallery==3.0.0
-jupyterlab_nbgallery==3.0.3
-voila==0.5.4
+jupyterlab_nbgallery==3.0.4
+voila==0.5.10
 
