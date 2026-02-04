@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/base-notebook:4440193fa5b3
+FROM quay.io/jupyter/base-notebook:317788e49268
 
 USER root
 
@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         vim && \
     rm -rf /var/lib/apt/lists/* && \
     mamba install -yq nodejs  && \
-    npm install -g npm@11.7.0 && \
+    npm install -g npm@latest && \
     pip install --no-cache-dir -r /etc/requirements.txt && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
