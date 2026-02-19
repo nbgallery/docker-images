@@ -4,6 +4,25 @@ USER root
 
 COPY conf/ /
 
+RUN rm -f "${CONDA_DIR}/conda-meta/pinned" && \
+    mamba install -y -n base \
+    python=3.14 \
+    ipykernel \
+    jupyterhub-singleuser \
+    jupyter_server \
+    nbclassic \
+    jupyterlab \
+    "notebook>=7.2.2" && \
+    mamba update -y -n base --all && \
+    mamba clean --all -f -y
+
+# Register the kernel (essential for the UI to connect)
+RUN "${CONDA_DIR}/bin/python" -m ipykernel install --prefix="${CONDA_DIR}" --name python3
+
+RUN fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
         build-essential \
@@ -14,6 +33,9 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
         less \
         vim && \
     rm -rf /var/lib/apt/lists/* && \
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    chmod +x ./kubectl && \
+    mv ./kubectl /usr/local/bin/kubectl && \
     pip install --no-cache-dir -r /etc/requirements.txt && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
