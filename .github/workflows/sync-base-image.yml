@@ -1,0 +1,71 @@
+name: Sync upstream Jupyter base image
+
+on:
+  schedule:
+    - cron: '0 13 * * *'   # daily; adjust to taste
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check upstream jupyter/base-notebook
+        id: check
+        run: |
+          set -euo pipefail
+          bash scripts/check-jupyter-latest.sh > /tmp/upstream.env
+          source /tmp/upstream.env
+
+          stored_digest="none"
+          [[ -f .github/upstream-digest.txt ]] && stored_digest=$(cat .github/upstream-digest.txt)
+
+          echo "latest_digest=${latest_digest}" >> "$GITHUB_OUTPUT"
+          echo "mirror_tags=${mirror_tags}" >> "$GITHUB_OUTPUT"
+          if [[ "$latest_digest" == "$stored_digest" ]]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Buildx
+        if: steps.check.outputs.changed == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        if: steps.check.outputs.changed == 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push mirrored tags
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          IFS=',' read -ra TAGS <<< "${{ steps.check.outputs.mirror_tags }}"
+          TAG_ARGS=()
+          for t in "${TAGS[@]}"; do
+            TAG_ARGS+=(--tag "nbgallery/base-notebook:${t}")
+          done
+
+          docker buildx build \
+            --build-arg "JUPYTER_TAG=latest@${{ steps.check.outputs.latest_digest }}" \
+            "${TAG_ARGS[@]}" \
+            --push \
+            .
+
+      - name: Record digest and commit
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          mkdir -p .github
+          echo "${{ steps.check.outputs.latest_digest }}" > .github/upstream-digest.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .github/upstream-digest.txt
+          git commit -m "chore: sync to jupyter/base-notebook ${{ steps.check.outputs.latest_digest }} [skip ci]"
+          git push

@@ -1,4 +1,5 @@
-FROM quay.io/jupyter/base-notebook:317788e49268
+ARG JUPYTER_TAG=latest
+FROM quay.io/jupyter/base-notebook:${JUPYTER_TAG}
 
 USER root
 
