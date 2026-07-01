@@ -64,7 +64,7 @@ jobs:
             --build-arg "JUPYTER_TAG=latest@${{ steps.check.outputs.latest_digest }}" \
             "${TAG_ARGS[@]}" \
             --push \
-            .
+            ./base-notebook/
 
       - name: Record digest and commit
         if: steps.check.outputs.changed == 'true'
