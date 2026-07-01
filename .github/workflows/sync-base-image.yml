@@ -8,6 +8,12 @@ on:
 permissions:
   contents: write
 
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: docker.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: nbgallery/base-notebook
+
 jobs:
   check-and-build:
     runs-on: ubuntu-latest
@@ -40,8 +46,9 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push mirrored tags
         if: steps.check.outputs.changed == 'true'
