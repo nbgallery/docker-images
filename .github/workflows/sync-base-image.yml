@@ -75,4 +75,21 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .github/upstream-digest.txt
           git commit -m "chore: sync to jupyter/base-notebook ${{ steps.check.outputs.latest_digest }} [skip ci]"
-          git push
+      
+      - name: Create Pull Request
+        if: steps.check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: sync to jupyter/base-notebook ${{ steps.check.outputs.latest_digest }} [skip ci]"
+          title: "chore: sync to jupyter/base-notebook ${{ steps.check.outputs.latest_digest }}"
+          body: |
+            Automatic sync of upstream Jupyter base-notebook image
+            
+            **Latest digest:** ${{ steps.check.outputs.latest_digest }}
+            
+            This PR was automatically created by the sync workflow.
+          branch: chore/sync-base-image-${{ github.run_id }}
+          delete-branch: true
+          labels: "automated"
+          auto-merge: true
+          merge-method: squash
