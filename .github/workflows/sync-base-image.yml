@@ -55,7 +55,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ${{ secrets.PRIVATE_REGISTRY }}
-          username: ${{ secrets.PRIVATE__USER }}
+          username: ${{ secrets.PRIVATE_USER }}
           password: ${{ secrets.PRIVATE_PWD }}
 
       - name: Build and push mirrored tags
