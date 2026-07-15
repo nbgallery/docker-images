@@ -11,6 +11,7 @@ permissions:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
+  PRIVATE_REGISTRY: containeryard.evoforge.org
   # github.repository as <account>/<repo>
   IMAGE_NAME: nbgallery/base-notebook
 
@@ -26,7 +27,7 @@ jobs:
           echo "Length: ${#PRIVATE_REGISTRY}"
           echo "${PRIVATE_REGISTRY}" | od -c | tail -5
         env:
-          PRIVATE_REGISTRY: ${{ secrets.PRIVATE_REGISTRY }}
+          PRIVATE_REGISTRY: ${{ env.PRIVATE_REGISTRY }}
 
       - name: Check upstream jupyter/base-notebook
         id: check
@@ -62,7 +63,7 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.PRIVATE_REGISTRY }}
+          registry: ${{ env.PRIVATE_REGISTRY }}
           username: ${{ secrets.PRIVATE_USER }}
           password: ${{ secrets.PRIVATE_PWD }}
 
@@ -74,7 +75,7 @@ jobs:
           TAG_ARGS=()
           for t in "${TAGS[@]}"; do
             TAG_ARGS+=(--tag "${{ env.IMAGE_NAME }}:${t}")
-            TAG_ARGS+=(--tag "${{ secrets.PRIVATE_REGISTRY }}/${{ env.IMAGE_NAME}}:${t}")
+            TAG_ARGS+=(--tag "${{ env.PRIVATE_REGISTRY }}/${{ env.IMAGE_NAME}}:${t}")
           done
 
           docker buildx build \
