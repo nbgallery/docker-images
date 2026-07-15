@@ -28,6 +28,19 @@ jobs:
           echo "${PRIVATE_REGISTRY}" | od -c | tail -5
         env:
           PRIVATE_REGISTRY: ${{ env.PRIVATE_REGISTRY }}
+      - name: DNS sanity check
+        run: |
+          echo "== nslookup =="
+          nslookup containeryard.evoforge.org || echo "nslookup failed"
+
+          echo "== dig =="
+          dig +short containeryard.evoforge.org || echo "dig failed"
+
+          echo "== dig against public resolver (8.8.8.8) =="
+          dig +short containeryard.evoforge.org @8.8.8.8 || echo "dig via 8.8.8.8 failed"
+
+          echo "== curl =="
+          curl -v -I https://containeryard.evoforge.org/v2/ || echo "curl failed"
 
       - name: Check upstream jupyter/base-notebook
         id: check
