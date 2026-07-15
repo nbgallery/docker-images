@@ -21,6 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Sanity check registry value
+        run: |
+          echo "Length: ${#PRIVATE_REGISTRY}"
+          echo "${PRIVATE_REGISTRY}" | od -c | tail -5
+        env:
+          PRIVATE_REGISTRY: ${{ secrets.PRIVATE_REGISTRY }}
+
       - name: Check upstream jupyter/base-notebook
         id: check
         run: |
