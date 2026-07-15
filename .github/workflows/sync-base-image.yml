@@ -17,6 +17,7 @@ env:
 jobs:
   check-and-build:
     runs-on: ubuntu-latest
+    environment: nbgallery
     steps:
       - uses: actions/checkout@v4
 
