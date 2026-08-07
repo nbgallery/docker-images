@@ -5,6 +5,32 @@ USER root
 
 COPY conf/ /
 
+RUN mamba env create -p "${CONDA_DIR}/envs/py11" -f /etc/environment-py11.yml && \
+    "${CONDA_DIR}/envs/py11/bin/pip" install --no-cache-dir -r /etc/requirements.txt && \
+    mamba clean --all -f -y
+
+RUN mamba env create -p "${CONDA_DIR}/envs/py12" -f /etc/environment-py12.yml && \
+    "${CONDA_DIR}/envs/py12/bin/pip" install --no-cache-dir -r /etc/requirements.txt && \
+    mamba clean --all -f -y
+
+RUN mamba env create -p "${CONDA_DIR}/envs/py14" -f /etc/environment-py14.yml && \
+    "${CONDA_DIR}/envs/py14/bin/pip" install --no-cache-dir -r /etc/requirements.txt && \
+    mamba clean --all -f -y
+
+RUN "${CONDA_DIR}/envs/py11/bin/python" -m ipykernel install --sys-prefix --name="python-3.11" --display-name="Python 3.11 (py11)" && \
+    "${CONDA_DIR}/envs/py12/bin/python" -m ipykernel install --sys-prefix --name="python-3.12" --display-name="Python 3.12 (py12)" && \
+    "${CONDA_DIR}/envs/py14/bin/python" -m ipykernel install --sys-prefix --name="python-3.14" --display-name="Python 3.14 (py14)" && \
+    ln -s "${CONDA_DIR}/envs/py11/share/jupyter/kernels/python-3.11" "${CONDA_DIR}/share/jupyter/kernels/python-3.11" && \
+    ln -s "${CONDA_DIR}/envs/py12/share/jupyter/kernels/python-3.12" "${CONDA_DIR}/share/jupyter/kernels/python-3.12" && \
+    ln -s "${CONDA_DIR}/envs/py14/share/jupyter/kernels/python-3.14" "${CONDA_DIR}/share/jupyter/kernels/python-3.14" && \
+    echo 'alias python11="${CONDA_DIR}/envs/py11/bin/python"' >> /etc/bash.bashrc && \
+    echo 'alias python12="${CONDA_DIR}/envs/py12/bin/python"' >> /etc/bash.bashrc && \
+    echo 'alias python14="${CONDA_DIR}/envs/py14/bin/python"' >> /etc/bash.bashrc && \
+    sed -i 's/"display_name": "Python 3 (ipykernel)"/"display_name": "Python 3.13 (base)"/g' "${CONDA_DIR}/share/jupyter/kernels/python3/kernel.json" && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+
+
 RUN apt-get update && apt-get -yq dist-upgrade && \
     apt-get install -yq --no-install-recommends \
         build-essential \

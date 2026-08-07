@@ -1,0 +1,13 @@
+name: py12
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - ipykernel
+  - jupyterhub-singleuser
+  - jupyter_server
+  - nbclassic
+  - jupyterlab
+  - notebook>=7.2.2
+  - pip
