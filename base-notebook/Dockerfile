@@ -5,36 +5,16 @@ USER root
 
 COPY conf/ /
 
-RUN mamba env create -p "${CONDA_DIR}/envs/py11" \
-    python=3.11 \
-    ipykernel \
-    jupyterhub-singleuser \
-    jupyter_server \
-    nbclassic \
-    jupyterlab \
-    "notebook>=7.2.2" && \
-    mamba update -y -n base --all && \
+RUN mamba env create -p "${CONDA_DIR}/envs/py11" -f /etc/environment-py11.yml && \
+    "${CONDA_DIR}/envs/py11/bin/pip" install --no-cache-dir -r /etc/requirements.txt && \
     mamba clean --all -f -y
 
-RUN mamba env create -p "${CONDA_DIR}/envs/py12" \
-    python=3.12 \
-    ipykernel \
-    jupyterhub-singleuser \
-    jupyter_server \
-    nbclassic \
-    jupyterlab \
-    "notebook>=7.2.2" && \
-    mamba update -y -n base --all && \
+RUN mamba env create -p "${CONDA_DIR}/envs/py12" -f /etc/environment-py12.yml && \
+    "${CONDA_DIR}/envs/py12/bin/pip" install --no-cache-dir -r /etc/requirements.txt && \
     mamba clean --all -f -y
 
-RUN mamba env create -p "${CONDA_DIR}/envs/py14" \
-    python=3.14 \
-    ipykernel \
-    jupyterhub-singleuser \
-    jupyter_server \
-    nbclassic \
-    jupyterlab \
-    "notebook>=7.2.2" && \
+RUN mamba env create -p "${CONDA_DIR}/envs/py14" -f /etc/environment-py14.yml && \
+    "${CONDA_DIR}/envs/py14/bin/pip" install --no-cache-dir -r /etc/requirements.txt && \
     mamba clean --all -f -y
 
 RUN "${CONDA_DIR}/envs/py11/bin/python" -m ipykernel install --sys-prefix --name="python-3.11" --display-name="Python 3.11 (py11)" && \
