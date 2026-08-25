@@ -5,4 +5,4 @@ jupyter-console==6.6.3
 jupyter-nbgallery==3.0.1
 jupyterlab_nbgallery==3.0.6
 voila==0.5.10
-
+jupytext==1.19.5
