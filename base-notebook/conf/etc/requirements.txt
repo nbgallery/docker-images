@@ -6,3 +6,16 @@ jupyter-nbgallery==3.0.1
 jupyterlab_nbgallery==3.0.6
 voila==0.5.10
 jupytext==1.19.5
+black==23.7.0
+ipympl==0.9.3
+isort==5.12.0
+anywidget==0.11.0
+jupyterlab-code-formatter==3.0.2
+jupyterlab-execute-time==3.2.0
+jupyterlab-spellchecker==0.8.4
+ordo==0.3.4
+voila-material>=0.4.0
+voila-nbgallery==0.0.5
+setuptools>=80.10.1
+tornado==6.5.1
+jupyter_core==5.8.1
