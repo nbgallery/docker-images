@@ -49,6 +49,7 @@ RUN apt-get update && apt-get -yq dist-upgrade && \
     pip install --no-cache-dir -r /etc/requirements.txt && \
     jupyter labextension disable @jupyterlab_nbgallery/autodownload && \
     jupyter labextension disable @jupyterlab_nbgallery/instrumentation && \
+    jupyter nbclassic-extension install --sys-prefix --py ordo && \
     echo '######################################## nbgallery configuration' && \
     echo 'if [ -d $NOTEBOOK_DIR ]; then cd $NOTEBOOK_DIR; fi' >> /home/$NB_USER/.bashrc && \
     echo '######################################## cleanup' && \
